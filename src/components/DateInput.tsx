@@ -1,15 +1,11 @@
 import { useEffect, useState } from "react";
+import { InputElementProps } from "../types";
 import Label from "./Label";
 
-type DateInputProps = {
-  id?: string;
-  label?: string;
+interface DateInputProps extends InputElementProps {
   min?: string;
   max?: string;
-  value?: string;
-  memoize?: boolean;
-  onChange?: (date: string) => void;
-};
+}
 
 const DateInput: React.FC<DateInputProps> = ({
   id,
@@ -27,7 +23,7 @@ const DateInput: React.FC<DateInputProps> = ({
 
   const handleDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCurrentDate(event.target.value);
-    onChange && onChange(event.target.value);
+    onChange && onChange(event);
   };
 
   useEffect(() => {

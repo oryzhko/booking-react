@@ -1,16 +1,12 @@
 import { useEffect, useState } from "react";
+import { InputElementProps } from "../types";
 import Label from "./Label";
 
-type NumberInputProps = {
-  id?: string;
-  label?: string;
+interface NumberInputProps extends InputElementProps {
   min?: string;
   max?: string;
   step?: string;
-  value?: string;
-  memoize?: boolean;
-  onChange?: (date: string) => void;
-};
+}
 
 const NumberInput: React.FC<NumberInputProps> = ({
   id,
@@ -28,7 +24,7 @@ const NumberInput: React.FC<NumberInputProps> = ({
 
   const handleValueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCurrentValue(event.target.value);
-    onChange && onChange(event.target.value);
+    onChange && onChange(event);
   };
 
   useEffect(() => {
