@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Label from "./Label";
 
 type DateInputProps = {
   id?: string;
@@ -21,7 +22,7 @@ const DateInput: React.FC<DateInputProps> = ({
 }) => {
   const today = new Date().toISOString().slice(0, 10);
   const [currentDate, setCurrentDate] = useState(
-    value || (memoize && localStorage.getItem("selectedDate")) || today
+    (memoize && localStorage.getItem(`${id}Value`)) || value || today
   );
 
   const handleDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,15 +31,15 @@ const DateInput: React.FC<DateInputProps> = ({
   };
 
   useEffect(() => {
-    memoize && localStorage.setItem("selectedDate", currentDate);
-  }, [memoize, currentDate]);
+    memoize && localStorage.setItem(`${id}Value`, currentDate);
+  }, [memoize, currentDate, id]);
 
   return (
     <>
-      {label && <label htmlFor={id || "date"}>{`${label}:`}</label>}
+      {label && <Label htmlFor={id} text={label} />}
       <input
         type="date"
-        id={id || "date"}
+        id={id}
         className="border border-gray-300 p-2 h-10 rounded-xl invalid:border-red-500"
         min={min}
         max={max}

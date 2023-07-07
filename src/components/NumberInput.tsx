@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Label from "./Label";
 
 type NumberInputProps = {
   id?: string;
@@ -22,10 +23,7 @@ const NumberInput: React.FC<NumberInputProps> = ({
   onChange,
 }) => {
   const [currentValue, setCurrentValue] = useState(
-    value ||
-      (memoize && localStorage.getItem(`selected${id?.toUpperCase}Value`)) ||
-      min ||
-      "0"
+    (memoize && localStorage.getItem(`${id}Value`)) || value || min || "0"
   );
 
   const handleValueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,16 +32,15 @@ const NumberInput: React.FC<NumberInputProps> = ({
   };
 
   useEffect(() => {
-    memoize &&
-      localStorage.setItem(`selected${id?.toUpperCase}Value`, currentValue);
+    memoize && localStorage.setItem(`${id}Value`, currentValue);
   }, [memoize, currentValue, id]);
 
   return (
     <>
-      {label && <label htmlFor={id || "number"}>{`${label}:`}</label>}
+      {label && <Label htmlFor={id} text={label} />}
       <input
         type="number"
-        id={id || "number"}
+        id={id}
         className="border border-gray-300 p-2 h-10 rounded-xl invalid:border-red-500 invalid:text-red"
         min={min}
         max={max}
